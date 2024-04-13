@@ -17,3 +17,7 @@
 ### For every page you want static files then add this in that file
 - {% load static %}
 - To load css from static folder  - 	<link href="{% static 'css/iconmoon.css'%}" rel="stylesheet">
+
+
+### Collect static command - Production
+- python manage.py collectstatic
