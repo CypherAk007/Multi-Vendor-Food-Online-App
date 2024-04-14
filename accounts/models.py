@@ -26,7 +26,7 @@ class UserManger(BaseUserManager):
         user.save(using=self._db) #using -> which db the manager should user of operations(default db in setting.py->DATABASES)
         return user 
     
-    def create_suepruser(self,first_name,last_name,username,email,password=None):
+    def create_superuser(self,first_name,last_name,username,email,password=None):
         user = self.create_user(
             email = self.normalize_email(email), # normalize -> converts upper to lowercase
             username = username,
