@@ -30,3 +30,10 @@
 - create new superuser for pg
 - created .env for storing secrets fm public repo
 - ref. https://pypi.org/project/python-decouple/
+
+### Create your custom user models 
+- 1->create user model 
+- 2->tell user we are using which usermanager
+- objects = UserManger()
+- 3->tell django that we are using custom user not default 
+- AUTH_USER_MODELS = 'accounts.User'
