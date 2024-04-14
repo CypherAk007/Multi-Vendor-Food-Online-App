@@ -21,3 +21,12 @@
 
 ### Collect static command - Production
 - python manage.py collectstatic
+
+### Postgres Data is saved here
+- /Library/PostgreSQL/16/data
+
+### Postgres Dependency package
+- pip install psycopg2
+- create new superuser for pg
+- created .env for storing secrets fm public repo
+- ref. https://pypi.org/project/python-decouple/
