@@ -51,3 +51,13 @@
 - 	<!--Main Wrapper-->
 - Also add where static is used - {% load static %}
 - {% extends 'base.html' %}
+
+### Django Forms
+- why do we pass context = {
+        'form':form,
+    }
+-  the context dictionary is used to pass data from the view to the template. In your registeruser view function, you're passing a context that includes a form instance.
+- class UserForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput())
+- a widget is a representation of an HTML input element
+
