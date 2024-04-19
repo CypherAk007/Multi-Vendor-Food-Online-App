@@ -37,3 +37,17 @@
 - objects = UserManger()
 - 3->tell django that we are using custom user not default 
 - AUTH_USER_MODELS = 'accounts.User'
+
+### Django Template Inheritance
+- <body>
+- <!--Load navbar here-->
+-   {% include 'includes/navbar.html'%}
+-     <!--Load content here-->
+-     {% block content %}
+-     <!--Our Content Goes here-->
+-     {% endblock %}
+-     <!--Load footer here-->
+-     {% include 'includes/footer.html' %}
+- 	<!--Main Wrapper-->
+- Also add where static is used - {% load static %}
+- {% extends 'base.html' %}
