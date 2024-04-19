@@ -63,5 +63,12 @@
 
 ### Django Password
 - the set_password() method is used to securely hash and set the user's password
--Password:
+- Password:
 algorithm: pbkdf2_sha256 iterations: 720000 salt: sSDMB3**************** hash: sCVPzL**************************************
+
+### Django Messages
+- Message.Tags do settings in setting.py for detecting error or succcess msg
+- from django.contrib.messages import constants as messages
+- MESSAGE_TAGS = {
+    messages.ERROR: "danger",
+}
