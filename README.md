@@ -61,3 +61,7 @@
     password = forms.CharField(widget=forms.PasswordInput())
 - a widget is a representation of an HTML input element
 
+### Django Password
+- the set_password() method is used to securely hash and set the user's password
+-Password:
+algorithm: pbkdf2_sha256 iterations: 720000 salt: sSDMB3**************** hash: sCVPzL**************************************

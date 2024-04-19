@@ -11,7 +11,9 @@ def registerUser(request):
         form = UserForm(request.POST)
         if form.is_valid():
             # what ever data we have in form will be assigned to user  
+            password = form.cleaned_data['password']
             user = form.save(commit=False)
+            user.set_password(password)
             user.role = User.CUSTOMER
             # save the modified user 
             user.save()
