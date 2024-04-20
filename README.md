@@ -72,3 +72,6 @@ algorithm: pbkdf2_sha256 iterations: 720000 salt: sSDMB3**************** hash: s
 - MESSAGE_TAGS = {
     messages.ERROR: "danger",
 }
+
+### To Recieve any Files from The form Mention Encoding type
+- enctype="multipart/form-data"

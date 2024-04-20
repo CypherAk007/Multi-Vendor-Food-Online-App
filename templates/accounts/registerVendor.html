@@ -16,7 +16,7 @@
                     <p class="text-center">Register your restraurant with foodOnline marketplace and get more customers</p>
                     <hr>
                     <div id="restaurant-sets-holder">
-                        <form method="post" action="{% url 'registerVendor' %}" class="form-fields-set foodbakery-dev-restaurant-form" >
+                        <form method="post" action="{% url 'registerVendor' %}" class="form-fields-set foodbakery-dev-restaurant-form" enctype="multipart/form-data" >
                             {% csrf_token %}
                             <ul class="register-add-restaurant-tab-container restaurant-information-tab-container">
                                 <li>
