@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from .forms import UserForm
 from .models import User
 from django.contrib import messages
+from vendor.forms import VendorForm
 
 
 def registerUser(request):
@@ -46,4 +47,11 @@ def registerUser(request):
     return render(request,'accounts/registerUser.html',context)
 
 def registerVendor(request):
-    return render(request,'accounts/registerVendor.html')
+    # Combine user form and vendor form(vname&vlicense fields)
+    form = UserForm()
+    v_form = VendorForm()
+    context ={
+        'form':form,
+        'v_form':v_form,
+    }
+    return render(request,'accounts/registerVendor.html',context)

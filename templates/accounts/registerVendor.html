@@ -16,7 +16,7 @@
                     <p class="text-center">Register your restraurant with foodOnline marketplace and get more customers</p>
                     <hr>
                     <div id="restaurant-sets-holder">
-                        <form method="post" action="{% url 'registerUser' %}" class="form-fields-set foodbakery-dev-restaurant-form" >
+                        <form method="post" action="{% url 'registerVendor' %}" class="form-fields-set foodbakery-dev-restaurant-form" >
                             {% csrf_token %}
                             <ul class="register-add-restaurant-tab-container restaurant-information-tab-container">
                                 <li>
@@ -33,6 +33,16 @@
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                             <div class="field-holder">
                                                                 <label>Last name</label>{{form.last_name}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                            <div class="field-holder">
+                                                                <label>Restaurant name</label>{{v_form.vendor_name}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                            <div class="field-holder">
+                                                                <label>Restaurant Licence</label>{{v_form.vendor_license}}
                                                             </div>
                                                         </div>
                                                         
