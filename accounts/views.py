@@ -6,7 +6,7 @@ from .forms import UserForm
 from .models import User
 from django.contrib import messages
 from vendor.forms import VendorForm
-
+from accounts.models import UserProfile
 
 def registerUser(request):
     if request.method == "POST":
@@ -48,8 +48,39 @@ def registerUser(request):
 
 def registerVendor(request):
     # Combine user form and vendor form(vname&vlicense fields)
-    form = UserForm()
-    v_form = VendorForm()
+    if request.method == 'POST':
+        # store the data and create the user
+         
+        # reiceve the form 
+        form = UserForm(request.POST)
+        # Recieve the files if form has any files
+        v_form = VendorForm(request.POST,request.FILES)
+        if form.is_valid() and v_form.is_valid():
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = User.objects.create_user(first_name=first_name,last_name=last_name,username=username,email = email,password=password)
+            user.role = User.VENDOR
+            user.save()
+            
+            vendor = v_form.save(commit=False) #so that we can assign value for user,user_profile in vendor model
+            vendor.user = user
+            # get user profile from user 
+            user_profile = UserProfile.objects.get(user = user)
+            vendor.user_profile = user_profile
+            vendor.save()
+            messages.success(request,'Your account has been registerd successfully! Please wait for Approval')
+            return redirect('registerVendor')
+
+        else:
+            print('invalid Forms')
+            print(form.errors)
+        pass 
+    else:
+        form = UserForm()
+        v_form = VendorForm()
     context ={
         'form':form,
         'v_form':v_form,
