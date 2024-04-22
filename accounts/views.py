@@ -9,7 +9,10 @@ from vendor.forms import VendorForm
 from accounts.models import UserProfile
 
 def registerUser(request):
-    if request.method == "POST":
+    if request.user.is_authenticated:
+        messages.warning(request,'You are already LoggedIn')
+        return redirect('dashboard')
+    elif request.method == "POST":
         print(request.POST)
         form = UserForm(request.POST)
         if form.is_valid():
@@ -47,8 +50,11 @@ def registerUser(request):
     return render(request,'accounts/registerUser.html',context)
 
 def registerVendor(request):
+    if request.user.is_authenticated:
+        messages.warning(request,'You are already LoggedIn')
+        return redirect('dashboard')
     # Combine user form and vendor form(vname&vlicense fields)
-    if request.method == 'POST':
+    elif request.method == 'POST':
         # store the data and create the user
          
         # reiceve the form 
@@ -84,11 +90,14 @@ def registerVendor(request):
     context ={
         'form':form,
         'v_form':v_form,
-    }
+    } 
     return render(request,'accounts/registerVendor.html',context)
 
 def login(request):
-    if request.method=='POST':
+    if request.user.is_authenticated:
+        messages.warning(request,'You are already LoggedIn')
+        return redirect('dashboard')
+    elif request.method=='POST':
         email = request.POST['email']
         password = request.POST['password']
         # Check if email and password belongs to user or not
