@@ -7,6 +7,26 @@ from .models import User
 from django.contrib import messages,auth
 from vendor.forms import VendorForm
 from accounts.models import UserProfile
+from django.contrib.auth.decorators import login_required, user_passes_test
+# from .utils import detectUser
+from django.core.exceptions import PermissionDenied
+
+# Restrict the vendor from accessing the customer Page 
+def check_role_vendor(user):
+    if user.role==1:
+        return True
+    else:
+        raise PermissionDenied
+        
+# Restrict the customer from accessing the vendor Page 
+def check_role_customer(user):
+    if user.role==2:
+        return True
+    else:
+        raise PermissionDenied
+        
+
+    
 
 def registerUser(request):
     if request.user.is_authenticated:
@@ -96,7 +116,7 @@ def registerVendor(request):
 def login(request):
     if request.user.is_authenticated:
         messages.warning(request,'You are already LoggedIn')
-        return redirect('dashboard')
+        return redirect('myAccount')
     elif request.method=='POST':
         email = request.POST['email']
         password = request.POST['password']
@@ -107,7 +127,7 @@ def login(request):
             # This auth package logs the user in 
             auth.login(request,user)
             messages.success(request,'You are now Logged in.')
-            return redirect('dashboard')
+            return redirect('myAccount')
         else:
             messages.error(request,'Invalid login credentials')
             return redirect('login')
@@ -119,6 +139,32 @@ def logout(request):
     messages.info(request,"You are Logged Out")
     return redirect('login')
 
+# from django.shortcuts import redirect
 
-def dashboard(request):
-    return render(request,'accounts/dashboard.html')
+def detectUser(user):
+    if user.role == 1:
+        redirectUrl = 'vendorDashboard'
+    elif user.role == 2:
+        redirectUrl = 'custDashboard'
+    elif user.role is None and user.is_superuser:
+        redirectUrl = '/admin'
+    else:
+        redirectUrl = '/default'  # Default URL for other cases
+    return redirectUrl
+
+# @login_required(login_url='login') -> sends the user to login page if not logged in 
+@login_required(login_url='login')
+def myAccount(request):
+    user = request.user
+    redirectUrl = detectUser(user)
+    return redirect(redirectUrl)
+
+@login_required(login_url='login')
+@user_passes_test(check_role_customer)
+def custDashboard(request):
+    return render(request,'accounts/custDashboard.html')
+
+@login_required(login_url='login')
+@user_passes_test(check_role_vendor)
+def vendorDashboard(request):
+    return render(request,'accounts/vendorDashboard.html')

@@ -75,3 +75,6 @@ algorithm: pbkdf2_sha256 iterations: 720000 salt: sSDMB3**************** hash: s
 
 ### To Recieve any Files from The form Mention Encoding type
 - enctype="multipart/form-data"
+
+### How to setup custom Error Page ->
+- make a html page with error code on it 403.html 
