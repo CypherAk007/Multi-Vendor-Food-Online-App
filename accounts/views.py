@@ -8,7 +8,7 @@ from django.contrib import messages,auth
 from vendor.forms import VendorForm
 from accounts.models import UserProfile
 from django.contrib.auth.decorators import login_required, user_passes_test
-# from .utils import detectUser
+from .utils import send_verification_email
 from django.core.exceptions import PermissionDenied
 
 # Restrict the vendor from accessing the customer Page 
@@ -31,7 +31,8 @@ def check_role_customer(user):
 def registerUser(request):
     if request.user.is_authenticated:
         messages.warning(request,'You are already LoggedIn')
-        return redirect('dashboard')
+        return redirect('custDashboard')
+    
     elif request.method == "POST":
         print(request.POST)
         form = UserForm(request.POST)
@@ -55,6 +56,10 @@ def registerUser(request):
             user = User.objects.create_user(first_name=first_name,last_name=last_name,username=username,email = email,password=password)
             user.role = User.CUSTOMER
             user.save()
+
+            # # send verification email 
+            # send_verification_email(request,user)
+
             messages.success(request,"Your account has been registered Successfully!!")
             print('user created')
             return redirect('registerUser')
@@ -72,7 +77,7 @@ def registerUser(request):
 def registerVendor(request):
     if request.user.is_authenticated:
         messages.warning(request,'You are already LoggedIn')
-        return redirect('dashboard')
+        return redirect('vendorDashboard')
     # Combine user form and vendor form(vname&vlicense fields)
     elif request.method == 'POST':
         # store the data and create the user
@@ -91,6 +96,10 @@ def registerVendor(request):
             user.role = User.VENDOR
             user.save()
             
+            # # send verification email 
+            # send_verification_email(request,user)
+
+
             vendor = v_form.save(commit=False) #so that we can assign value for user,user_profile in vendor model
             vendor.user = user
             # get user profile from user 
@@ -112,6 +121,10 @@ def registerVendor(request):
         'v_form':v_form,
     } 
     return render(request,'accounts/registerVendor.html',context)
+
+def activate(request,uidb64,token):
+    # Activate the user by setting the is_active status to True 
+    return 
 
 def login(request):
     if request.user.is_authenticated:
@@ -149,7 +162,7 @@ def detectUser(user):
     elif user.role is None and user.is_superuser:
         redirectUrl = '/admin'
     else:
-        redirectUrl = '/default'  # Default URL for other cases
+        redirectUrl = 'login'  # Default URL for other cases
     return redirectUrl
 
 # @login_required(login_url='login') -> sends the user to login page if not logged in 
